@@ -85,6 +85,7 @@ const onMovieSelect = async (movie) => {
 })
 
 console.log(response.data)
+console.log(response.data)
 document.querySelector('#summary').innerHTML = movieTemplate(response)
 }
 
