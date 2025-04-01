@@ -81,6 +81,24 @@ leftSideStats.foreach((leftStat, index) =>{
     }
 })
 
+const movieTemplate = (movieDetails) => {
+    // Trasnsmormar los numeros a string
+    const dollars = parseInt(movieDetails.BoxOffice.replace(/\$/g,'').replace(/\$/g,''))}
+
+    console.log(dollars)
+    const metascore = parseInt(movieDetails.Metascore)
+    const imdbRating = parseInt(movieDetails.imdbRating)
+    const imdbVotes = parseInt(movieDetails.imdbVotes.replace(/,/g,''))
+    console.log(metascore, imdbRating, imdbVotes)
+    const awards= movieDetails.award.split('').reduce((prev, word) => {
+        const value = parseInt(word)
+
+        if (isNaN(value)){
+            return prev
+        } else {
+            return prev + value
+        }
+    }, 0)
 const root = document.querySelector(".autocomplete")
 root.innerHTML = `
 <label><b>Busqueda de peliculas</b></label>
@@ -142,19 +160,3 @@ document.addEventListener('click', event => {
         dropdown.classList.remove('is-active')
     }
 })
-
-const movieTemplate = (movieDetail) => {
-    return `
-        <article class ="media">
-            <figure class ="media-left">
-                <p class ="image">
-                    <img src="${movieDetail.Poster}" />
-                </p>
-            </figure>
-            <div class="media-content">
-                <div class="content">
-                <h1>${movieDetail.Title}</h1>
-                <h1>${movieDetail.Genre}</h1>
-                <h1>${movieDetail.Plot}</h1>
-        `
-}
