@@ -2,7 +2,7 @@ const fetchData = async(searchTerm) => {
     const response = await axios.get("http://omdbapi.com", {
         params: {
             apikey:"ec8f83a2",
-            s: "avengers"
+            s: searchTerm
         }
     })
 
@@ -11,9 +11,76 @@ const fetchData = async(searchTerm) => {
     }
 
     console.log(response.data.Search)
+    return response.data.Search
 }
 
-//fetchData()
+fetchData()
+
+createAutoComplete({
+    ...autoCompleteConfig,
+    root: document.querySelector('#left-autocomplete'),
+    onOptionSelect (movie){
+        document.querySelector('.tutorial').classList.add('is-hidden')
+        onMovieSelect(movie, document.querySelector('#left-summery'),left)
+    }
+})
+
+createAutoComplete({
+    ...autoCompleteConfig,
+    root: document.querySelector('#right-autocomplete'),
+    onOptionSelect (movie){
+        document.querySelector('.tutorial').classList.add('is-hidden')
+        onMovieSelect(movie, document.querySelector('#right-summery'), right)
+    }
+})
+
+//Crear variables para leftmovie y rightmovie
+let leftMovie
+let rightMovie
+
+const onMovieSelect = async (movie, summaryElement, side) => {
+    const response = await axios.get("http://omdbapi.com", {
+        params: {
+            apikey:"ec8f83a2",
+            i: movie.imdbID
+        }
+    })
+    console.log(response.data)
+    summaryElement.innerHTML = movieTemplate(response.data)
+    //Preguntamos cual lado es
+    if (side === 'left'){
+        leftMovie = response.data
+    } else {
+        rightMovie = response.data
+    }
+
+    //preguntamos si tenemos ambos lados
+    if(leftMovie && rightMovie){
+        //entonces ejecutamos la funcion de comparacion
+        runComparison()
+    }
+}
+
+const runComparison = () => {
+    console.lof('Comparacion de Peliculas')
+    const leftSideStats = document.querySelectorAll('#left-sumary .notification')
+    const rightSideStats = document.querySelectorAll('#right-sumary .notification')
+}
+
+leftSideStats.foreach((leftStat, index) =>{
+    const rightSideStat = rightSideStats[index]
+    const leftSideValue = parseInt(leftStat.dataset.value)
+    const rightSideValue = parseInt(rightStat.dataset.value)
+
+    if(rightSideValue > leftSideValue){
+        leftStat.classList.remove('is-primary')
+        leftStat.classList.remove('is-danger')
+    } else {
+        rightStat.classList.remove('is-primary')
+        rightStat.classList.remove('is-danger')
+    }
+})
+
 const root = document.querySelector(".autocomplete")
 root.innerHTML = `
 <label><b>Busqueda de peliculas</b></label>
@@ -75,18 +142,6 @@ document.addEventListener('click', event => {
         dropdown.classList.remove('is-active')
     }
 })
-
-const onMovieSelect = async (movie) => {
-    const response = await axios.get("http://omdbapi.com", {
-        params: {
-            apikey:"ec8f83a2",
-            i: movie.imdbID
-        }
-})
-
-console.log(response.data)
-document.querySelector('#summary').innerHTML = movieTemplate(response)
-}
 
 const movieTemplate = (movieDetail) => {
     return `
