@@ -84,13 +84,13 @@ leftSideStats.foreach((leftStat, index) =>{
 const movieTemplate = (movieDetails) => {
     // Trasnsmormar los numeros a string
     const dollars = parseInt(movieDetails.BoxOffice.replace(/\$/g,'').replace(/\$/g,''))}
-
+    
     console.log(dollars)
     const metascore = parseInt(movieDetails.Metascore)
     const imdbRating = parseInt(movieDetails.imdbRating)
     const imdbVotes = parseInt(movieDetails.imdbVotes.replace(/,/g,''))
     console.log(metascore, imdbRating, imdbVotes)
-    const awards= movieDetails.award.split('').reduce((prev, word) => {
+    const awards= movieDetails.Awards.split('').reduce((prev, word) => {
         const value = parseInt(word)
 
         if (isNaN(value)){
@@ -99,6 +99,47 @@ const movieTemplate = (movieDetails) => {
             return prev + value
         }
     }, 0)
+    console.log('Awards', awards)
+
+    // agregar propiedad data-value a cada elemento del template
+    return `
+        <article class="media">
+            <figure class="media-left">
+                <p class="image">
+                    <img src="${movieDetails.Poster}"/>
+                </p>
+            </figure>
+            <div class="media-content">
+                <div class="content">
+                    <h1>${movieDetails.Title}</hi>
+                    <h4>${movieDetails.Genre}</h4>
+                    <p>${movieDetails.Plot}</p>
+                </div>
+            </div>
+        </article>
+        <article data-values=${awards} class="notification is-primary">
+            <p class="title">${movieDetail.Awards}</p>
+            <p>class="subtitle">Awards</p>
+        </article>
+        <article data-values=${dollars} class="notification is-primary">
+            <p class="title">${movieDetail.BoxOffice}</p>
+            <p>class="subtitle">Box Office</p>
+        </article>
+        <article data-values=${metascore} class="notification is-primary">
+            <p class="title">${movieDetail.Metascore}</p>
+            <p>class="subtitle">Metascore</p>
+        </article>
+        <article data-values=${imdbRating} class="notification is-primary">
+            <p class="title">${movieDetail.imdbRating}</p>
+            <p>class="subtitle">Rating</p>
+        </article>
+        <article data-values=${imdbVotes} class="notification is-primary">
+            <p class="title">${movieDetail.imdbVotes}</p>
+            <p>class="subtitle">Votes</p>
+        </article>
+    `
+
+
 const root = document.querySelector(".autocomplete")
 root.innerHTML = `
 <label><b>Busqueda de peliculas</b></label>
