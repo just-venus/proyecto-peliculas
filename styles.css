@@ -1,17 +1,16 @@
-
-.tutorial{
+.tutorial {
     width: 600px;
     text-align: center;
-    margin: auto;
+    margin: auto
 }
 
-figure.imagen{
+figure.image {
     display: flex;
     justify-content: center;
     background-color: black;
 }
 
-figure .imagen img {
+figure .image img {
     width: 128px;
 }
 
@@ -19,12 +18,12 @@ figure .imagen img {
     margin-top: 20px !important;
 }
 
-title .com{
-    margin-bottom: 15px;
+.title .icon {
+    margin-left: 15px;
 }
 
 .hero {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .forms {
@@ -42,5 +41,3 @@ title .com{
     height: 50px;
     margin-right: 10px;
 }
-
-
